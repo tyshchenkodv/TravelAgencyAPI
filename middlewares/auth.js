@@ -1,24 +1,23 @@
 const jwt = require('jsonwebtoken');
+const {User} = require('./../database.js');
 const AUTH_SECRET = 'SECRET';
+const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     try {
 
-        const token = req.headers.authorization;
-        const decodedToken = jwt.verify(token, AUTH_SECRET);
-        const userId = decodedToken.id;
+        const payload = jwt.verify(req.header('Access-Token'), AUTH_SECRET);
 
-        if (req.body.id && req.body.id !== userId) {
-            return res.status(400).send({
-                message: 'Such user does not exist!',
-            });
-        } else {
-            next();
+        if(payload){
+            const user = await User.findByPk(payload.id);
+
+            if(user){
+                req.user = user;
+            }
         }
 
-    } catch {
-        res.status(401).json({
-            message: 'Invalid token!'
-        });
+        next();
+    } catch (error){
+        return next(new UnauthorizedException(error));
     }
 };
