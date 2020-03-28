@@ -2,11 +2,13 @@ const jwt = require('jsonwebtoken');
 const {User} = require('./../database.js');
 const AUTH_SECRET = 'SECRET';
 const BadRequestException = require('./../exceptions/BadRequestException');
+const ForbiddenException = require('./../exceptions/ForbiddenException');
 const InternalErrorException = require('./../exceptions/InternalErrorException');
 
 module.exports = {
-    async login(req, res, next) {
-        const {email, password} = req.body;
+    async login (req, res, next) {
+        // Получили данные с request
+        const { email, password } = req.body;
 
         try {
             const errors = {};
@@ -42,6 +44,7 @@ module.exports = {
             const match = password === user.password;
 
             if (match) {
+                // Пароль подошел. Генерируем токен
                 const token = jwt.sign(
                     {
                         id: user.id,
@@ -54,12 +57,14 @@ module.exports = {
                     },
                 );
 
+                // Отправляем токен
                 return res.status(200).send({
                     token,
                 });
             }
 
-            return next(new BadRequestException());
+            // Пароль не валидный, отправляем ошибку
+            return next(new ForbiddenException());
         } catch (error) {
             return next(new InternalErrorException());
         }

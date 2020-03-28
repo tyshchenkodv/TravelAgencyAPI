@@ -1,6 +1,7 @@
 const {Hotel} = require('./../database.js');
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
+const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 
 module.exports = {
     list: async (req, res) => {
@@ -24,6 +25,10 @@ module.exports = {
         });
     },
     update: async (req, res, next) => {
+        if (!req.user) {
+            return next(new UnauthorizedException());
+        }
+
         const { id } = req.params;
         const data = req.body;
 
@@ -46,6 +51,10 @@ module.exports = {
         return res.status(204).send();
     },
     delete: async (req, res, next) => {
+        if (!req.user) {
+            return next(new UnauthorizedException());
+        }
+
         const { id } = req.params;
         const item = await Hotel.findByPk(id);
 
@@ -58,6 +67,10 @@ module.exports = {
         return res.status(204).send();
     },
     create: async (req, res, next) => {
+        if (!req.user) {
+            return next(new UnauthorizedException());
+        }
+
         try{
 
             const data = req.body;
