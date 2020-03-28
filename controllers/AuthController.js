@@ -5,8 +5,8 @@ const BadRequestException = require('./../exceptions/BadRequestException');
 const InternalErrorException = require('./../exceptions/InternalErrorException');
 
 module.exports = {
-    async login(req, res, next) {
-        const {email, password} = req.body;
+    async login (req, res, next) {
+        const { email, password } = req.body;
 
         try {
             const errors = {};
