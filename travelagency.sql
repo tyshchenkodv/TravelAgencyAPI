@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Мар 28 2020 г., 17:08
+-- Время создания: Мар 30 2020 г., 10:10
 -- Версия сервера: 8.0.18
 -- Версия PHP: 7.3.11
 
@@ -42,7 +42,8 @@ CREATE TABLE `hotels` (
 
 INSERT INTO `hotels` (`id`, `adress`, `price_per_night`, `type`, `phone`) VALUES
 (1, 'Adress 1', 23, 'apartament', '2414214'),
-(3, 'Update 3', 110, 'love hotel', '241423114');
+(3, 'Update 3', 110, 'love hotel', '241423114'),
+(4, 'Update 6', 110, 'love hotel', '241423114');
 
 -- --------------------------------------------------------
 
@@ -67,6 +68,14 @@ CREATE TABLE `services` (
   `price` int(11) NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `services`
+--
+
+INSERT INTO `services` (`id`, `price`, `description`) VALUES
+(2, 45, 'Test put update'),
+(3, 69, 'Test post create');
 
 -- --------------------------------------------------------
 
@@ -212,7 +221,7 @@ ALTER TABLE `vacation_tickets`
 -- AUTO_INCREMENT для таблицы `hotels`
 --
 ALTER TABLE `hotels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `hotel_vacations`
@@ -224,7 +233,7 @@ ALTER TABLE `hotel_vacations`
 -- AUTO_INCREMENT для таблицы `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `sevice_vacations`
