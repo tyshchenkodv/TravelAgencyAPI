@@ -2,6 +2,7 @@ const express = require('express');
 const AuthController = require('./controllers/AuthController');
 const HotelController = require('./controllers/HotelController');
 const ServiceController = require('./controllers/ServiceController');
+const TransportTicketController = require('./controllers/TransportTicketController');
 const auth = require('./middlewares/auth');
 const router = express.Router();
 
@@ -25,5 +26,11 @@ router.post('/service', auth, ServiceController.create);
 router.get('/service/:id', auth, ServiceController.item);
 router.put('/service/:id', auth, ServiceController.update);
 router.delete('/service/:id', auth, ServiceController.delete);
+
+router.get('/transportticket', auth, TransportTicketController.list);
+router.post('/transportticket', auth, TransportTicketController.create);
+router.get('/transportticket/:id', auth, TransportTicketController.item);
+router.put('/transportticket/:id', auth, TransportTicketController.update);
+router.delete('/transportticket/:id', auth,TransportTicketController.delete);
 
 module.exports = router;
