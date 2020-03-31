@@ -13,15 +13,13 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         price_per_night: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             validate: {
                 notNull: true,
                 notEmpty: true,
-                len: [
-                    1,
-                    10,
-                ],
+                isInt: true,
+                min: 0,
             },
         },
         type: {

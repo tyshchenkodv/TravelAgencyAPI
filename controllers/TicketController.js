@@ -1,11 +1,11 @@
-const {Transport_ticket} = require('./../database.js');
+const {Ticket} = require('./../database.js');
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 
 module.exports = {
     list: async (req, res) => {
-        const data = await Transport_ticket.findAll();
+        const data = await Ticket.findAll();
 
         return res.status(200).send({
             data,
@@ -14,7 +14,7 @@ module.exports = {
     item: async (req, res, next) => {
         const { id } = req.params;
 
-        const item = await Transport_ticket.findByPk(id);
+        const item = await Ticket.findByPk(id);
 
         if (!item) {
             return next(new NotFoundException());
@@ -32,7 +32,7 @@ module.exports = {
         const { id } = req.params;
         const data = req.body;
 
-        const item = await Transport_ticket.findByPk(id);
+        const item = await Ticket.findByPk(id);
 
         if (!item) {
             return next(new NotFoundException());
@@ -56,7 +56,7 @@ module.exports = {
         }
 
         const { id } = req.params;
-        const item = await Transport_ticket.findByPk(id);
+        const item = await Ticket.findByPk(id);
 
         if (!item) {
             return next(new NotFoundException());
@@ -74,7 +74,7 @@ module.exports = {
         try{
 
             const data = req.body;
-            await Transport_ticket.create(data);
+            await Ticket.create(data);
 
         }catch(error){
 

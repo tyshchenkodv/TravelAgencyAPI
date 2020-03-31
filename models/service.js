@@ -1,15 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('service', {
         price: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             validate: {
                 notNull: true,
                 notEmpty: true,
-                len: [
-                    1,
-                    11,
-                ],
+                isInt: true,
+                min: 0,
             },
         },
         description: {

@@ -1,15 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('transport_ticket', {
+    return sequelize.define('ticket', {
         price: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             validate: {
                 notNull: true,
                 notEmpty: true,
-                len: [
-                    1,
-                    11,
-                ],
+                isInt: true,
+                min: 0,
             },
         },
         departure_date: {
@@ -29,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         icao_departure: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(4),
             allowNull: false,
             validate: {
                 notNull: true,
@@ -41,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         icao_arrival: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(4),
             allowNull: false,
             validate: {
                 notNull: true,
