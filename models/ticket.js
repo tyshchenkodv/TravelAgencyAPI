@@ -1,18 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('hotel', {
-        adress: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: true,
-                notEmpty: true,
-                len: [
-                    5,
-                    50,
-                ],
-            },
-        },
-        price_per_night: {
+    return sequelize.define('ticket', {
+        price: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             validate: {
@@ -22,32 +10,43 @@ module.exports = (sequelize, DataTypes) => {
                 min: 0,
             },
         },
-        type: {
-            type: DataTypes.ENUM,
-            values: [
-                'apartament',
-                'botel',
-                'hostel',
-                'love hotel',
-                'eco hotel',
-                'motel',
-            ],
+        departure_date: {
+            type: DataTypes.DATE,
             allowNull: false,
             validate: {
                 notNull: true,
                 notEmpty: true,
             },
-            defaultValue: 'apartament',
         },
-        phone: {
-            type: DataTypes.STRING,
+        arrival_date: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
+        icao_departure: {
+            type: DataTypes.STRING(4),
             allowNull: false,
             validate: {
                 notNull: true,
                 notEmpty: true,
                 len: [
                     3,
-                    25,
+                    4,
+                ],
+            },
+        },
+        icao_arrival: {
+            type: DataTypes.STRING(4),
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+                len: [
+                    3,
+                    4,
                 ],
             },
         },
