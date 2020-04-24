@@ -1,11 +1,12 @@
 const {Vacation} = require('./../database.js');
+const {User} = require('./../database.js');
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 
 module.exports = {
     list: async (req, res) => {
-        const data = await Vacation.findAll();
+        const data = await Vacation.findAll({include: User});
 
         return res.status(200).send({
             data,

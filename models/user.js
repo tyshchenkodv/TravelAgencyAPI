@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('user', {
+    const User = sequelize.define('user', {
         first_name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -72,4 +72,12 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
     });
+
+    const Vacation = sequelize.define('vacation',{});
+
+    User.hasMany(Vacation, {
+        foreignKey: 'userId'
+    });
+
+    return User;
 };

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('vacation', {
+    const Vacation = sequelize.define('vacation', {
         date_start: {
             type: DataTypes.DATEONLY,
             allowNull: false,
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
                 ],
             },
         },
-        user_id: {
+        userId: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             validate: {
@@ -50,4 +50,10 @@ module.exports = (sequelize, DataTypes) => {
             },
         }
     });
+
+    const User = sequelize.define('user',{});
+
+    Vacation.belongsTo(User);
+
+    return Vacation;
 };
