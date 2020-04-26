@@ -14,31 +14,29 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/users/login', AuthController.login);
+router.post('/login', AuthController.login);
 
-router.get('/hotel', auth, HotelController.list);
-router.post('/hotel', auth, HotelController.create);
-router.get('/hotel/:id', auth, HotelController.item);
-router.put('/hotel/:id', auth, HotelController.update);
-router.delete('/hotel/:id', auth, HotelController.delete);
+router.get('/hotels', auth, HotelController.list);
+router.post('/hotels', auth, HotelController.create);
+router.get('/hotels/:id', auth, HotelController.item);
+router.put('/hotels/:id', auth, HotelController.update);
+router.delete('/hotels/:id', auth, HotelController.delete);
 
-router.get('/service', auth, ServiceController.list);
-router.post('/service', auth, ServiceController.create);
-router.get('/service/:id', auth, ServiceController.item);
-router.put('/service/:id', auth, ServiceController.update);
-router.delete('/service/:id', auth, ServiceController.delete);
+router.get('/services', auth, ServiceController.list);
+router.post('/services', auth, ServiceController.create);
+router.get('/services/:id', auth, ServiceController.item);
+router.put('/services/:id', auth, ServiceController.update);
+router.delete('/services/:id', auth, ServiceController.delete);
 
-router.get('/ticket', auth, TicketController.list);
-router.post('/ticket', auth, TicketController.create);
-router.get('/ticket/:id', auth, TicketController.item);
-router.put('/ticket/:id', auth, TicketController.update);
-router.delete('/ticket/:id', auth,TicketController.delete);
+router.get('/tickets', auth, TicketController.list);
+router.post('/tickets', auth, TicketController.create);
+router.get('/tickets/:id', auth, TicketController.item);
+router.put('/tickets/:id', auth, TicketController.update);
+router.delete('/tickets/:id', auth, TicketController.delete);
 
-router.get('/vacation'/*, auth*/, VacationController.list);
-router.post('/vacation', auth, VacationController.create);
-router.get('/vacation/:id', auth, VacationController.item);
-router.put('/vacation/:id', auth, VacationController.update);
-router.delete('/vacation/:id', auth,VacationController.delete);
-router.get('/vacation1/:id', VacationController.itemMany);
+router.get('/vacations', VacationController.list);
+router.post('/vacations', auth, VacationController.create);
+router.get('/vacations/:id', auth, VacationController.item);
+router.put('/vacations/:id', auth, VacationController.update);
 
 module.exports = router;

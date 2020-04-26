@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
+    return sequelize.define('user', {
         first_name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: true,
                 notEmpty: true,
                 len: [
-                    10
+                    10,
                 ],
             },
         },
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true,
                 len: [
                     8,
-                    50
+                    50,
                 ],
             },
         },
@@ -71,13 +71,14 @@ module.exports = (sequelize, DataTypes) => {
                 ],
             },
         },
+    }, {
+        defaultScope: {
+            attributes: {
+                exclude: [
+                    'password',
+                    'identification_code',
+                ],
+            },
+        },
     });
-
-    const Vacation = sequelize.define('vacation',{});
-
-    User.hasMany(Vacation, {
-        foreignKey: 'userId'
-    });
-
-    return User;
 };

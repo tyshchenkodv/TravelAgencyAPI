@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Vacation = sequelize.define('vacation', {
+    return sequelize.define('vacation', {
         date_start: {
             type: DataTypes.DATEONLY,
             allowNull: false,
@@ -38,32 +38,5 @@ module.exports = (sequelize, DataTypes) => {
                 ],
             },
         },
-        userId: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            allowNull: false,
-            validate: {
-                notNull: true,
-                notEmpty: true,
-                isInt: true,
-                min: 0,
-                max: 11
-            },
-        }
     });
-
-    const User = sequelize.define('user',{});
-    const Service = sequelize.define('user',{});
-    const Service_vacation = sequelize.define('service_vacation',{});
-
-
-    Vacation.belongsTo(User);
-    Vacation.belongsToMany(Service, {
-        through: {
-            model: Service_vacation,
-            unique: false
-        },
-        foreignKey: 'vacation_id',
-        constraints: false
-    });
-    return Vacation;
 };

@@ -1,18 +1,32 @@
-const {Vacation} = require('./../database.js');
-const {User} = require('./../database.js');
-const {Service} = require('./../database.js');
-const {Service_vacation} = require('./../database.js');
+const { Vacation } = require('./../database.js');
+const { Service } = require('./../database.js');
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
+const InternalErrorException = require('./../exceptions/InternalErrorException');
 
 module.exports = {
-    list: async (req, res) => {
-        const data = await Vacation.findAll({include: User});
+    list: async (req, res, next) => {
+        try {
+            const data = await Vacation.findAll({
+                include: [
+                    'user',
+                    {
+                        as: 'services',
+                        model: Service,
+                        through: {
+                            attributes: [],
+                        },
+                    },
+                ],
+            });
 
-        return res.status(200).send({
-            data,
-        });
+            return res.status(200).send({
+                data,
+            });
+        } catch (error) {
+            return next(new InternalErrorException(error));
+        }
     },
     item: async (req, res, next) => {
         const { id } = req.params;
@@ -42,11 +56,8 @@ module.exports = {
         }
 
         try {
-
             await item.update(data);
-
-        }catch (error) {
-
+        } catch (error) {
             return next(new BadRequestException(error));
 
         }
@@ -74,20 +85,14 @@ module.exports = {
             return next(new UnauthorizedException());
         }
 
-        try{
-
+        try {
             const data = req.body;
             await Vacation.create(data);
 
-        }catch(error){
-
+        } catch (error) {
             return next(new BadRequestException(error));
-
         }
 
         return res.status(201).send();
-    },
-    itemMany: async(req, res, next) =>{
-        Vacation.findOne({include: Service});
     },
 };

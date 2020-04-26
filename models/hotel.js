@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('hotel', {
-        adress: {
+        address: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {

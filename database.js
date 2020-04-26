@@ -1,15 +1,16 @@
 const Sequelize = require('sequelize');
+
 const User = require('./models/user');
 const Hotel = require('./models/hotel');
 const Service = require('./models/service');
 const Ticket = require('./models/ticket');
 const Vacation = require('./models/vacation');
-const Service_vacation = require('./models/service_vacation');
+const ServiceVacation = require('./models/serviceVacation');
 
 const sequelize = new Sequelize(
     'travelagency',
-    'admin',
-    'password1234',
+    'root',
+    'EvY26j7r',
     {
         host: 'localhost',
         dialect: 'mysql',
@@ -26,8 +27,38 @@ const models = {
     Service: Service(sequelize, Sequelize),
     Ticket: Ticket(sequelize, Sequelize),
     Vacation: Vacation(sequelize, Sequelize),
-    Service_vacation: Service_vacation(sequelize, Sequelize)
+    ServiceVacation: ServiceVacation(sequelize, Sequelize)
 };
+
+models.Vacation.belongsTo(models.User, {
+    as: 'user',
+    foreignKey: 'userId',
+});
+models.User.hasMany(models.Vacation);
+
+models.Vacation.belongsToMany(models.Service, {
+    as: 'services',
+    through: {
+        model: models.ServiceVacation,
+        unique: false,
+    },
+    foreignKey: {
+        primaryKey: true,
+        fieldName: 'vacationId'
+    },
+});
+
+models.Service.belongsToMany(models.Vacation, {
+    as: 'vacations',
+    through: {
+        model: models.ServiceVacation,
+        unique: false,
+    },
+    foreignKey: {
+        primaryKey: true,
+        fieldName: 'serviceId',
+    },
+});
 
 module.exports = {
     ...models,
