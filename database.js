@@ -4,6 +4,7 @@ const Hotel = require('./models/hotel');
 const Service = require('./models/service');
 const Ticket = require('./models/ticket');
 const Vacation = require('./models/vacation');
+const Service_vacation = require('./models/service_vacation');
 
 const sequelize = new Sequelize(
     'travelagency',
@@ -24,7 +25,8 @@ const models = {
     Hotel: Hotel(sequelize, Sequelize),
     Service: Service(sequelize, Sequelize),
     Ticket: Ticket(sequelize, Sequelize),
-    Vacation: Vacation(sequelize, Sequelize)
+    Vacation: Vacation(sequelize, Sequelize),
+    Service_vacation: Service_vacation(sequelize, Sequelize)
 };
 
 module.exports = {

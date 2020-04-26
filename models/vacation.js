@@ -52,8 +52,18 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     const User = sequelize.define('user',{});
+    const Service = sequelize.define('user',{});
+    const Service_vacation = sequelize.define('service_vacation',{});
+
 
     Vacation.belongsTo(User);
-
+    Vacation.belongsToMany(Service, {
+        through: {
+            model: Service_vacation,
+            unique: false
+        },
+        foreignKey: 'vacation_id',
+        constraints: false
+    });
     return Vacation;
 };

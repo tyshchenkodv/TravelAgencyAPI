@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('service', {
+    const Service = sequelize.define('service', {
         price: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
@@ -23,4 +23,19 @@ module.exports = (sequelize, DataTypes) => {
             },
         }
     });
+
+
+    const Vacation = sequelize.define('user',{});
+    const Service_vacation = sequelize.define('service_vacation',{});
+
+    Service.belongsToMany(Vacation, {
+        through: {
+            model: Service_vacation,
+            unique: false
+        },
+        foreignKey: 'service_id',
+        constraints: false
+    });
+
+    return Service;
 };

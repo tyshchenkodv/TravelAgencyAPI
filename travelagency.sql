@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Мар 30 2020 г., 10:10
+-- Время создания: Апр 25 2020 г., 12:25
 -- Версия сервера: 8.0.18
 -- Версия PHP: 7.3.11
 
@@ -92,10 +92,10 @@ CREATE TABLE `sevice_vacations` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `transport_tickets`
+-- Структура таблицы `tickets`
 --
 
-CREATE TABLE `transport_tickets` (
+CREATE TABLE `tickets` (
   `id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `departure_date` datetime NOT NULL,
@@ -103,6 +103,14 @@ CREATE TABLE `transport_tickets` (
   `icao_departure` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `icao_arrival` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `tickets`
+--
+
+INSERT INTO `tickets` (`id`, `price`, `departure_date`, `arrival_date`, `icao_departure`, `icao_arrival`) VALUES
+(1, 250, '2020-03-04 00:00:00', '2020-05-14 00:00:00', 'FEDA', 'FAS'),
+(2, 500, '2020-03-30 11:00:00', '2020-03-31 05:00:00', 'FASF', 'DSW');
 
 -- --------------------------------------------------------
 
@@ -125,7 +133,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `phone`, `identification_code`, `email`, `password`) VALUES
-(1, 'Dima', 'Tyshchenko', '+380955481366', 1111111111, 'dmitry.tishchenko98@gmail.com', 'password1234');
+(1, 'Dima', 'Tyshchenko', '+380955481366', 1111111111, 'dmitry.tishchenko98@gmail.com', 'password1234'),
+(2, 'Alex', 'Merser', '+3805558666', 1111111111, 'alex.merser@gmail.com', 'password1234');
 
 -- --------------------------------------------------------
 
@@ -139,8 +148,17 @@ CREATE TABLE `vacations` (
   `date_end` date NOT NULL,
   `price` int(11) NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `user_id` int(11) NOT NULL
+  `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `vacations`
+--
+
+INSERT INTO `vacations` (`id`, `date_start`, `date_end`, `price`, `description`, `userId`) VALUES
+(1, '2020-04-24', '2020-04-30', 500, 'Тур по Европе', 1),
+(2, '2020-04-29', '2020-05-25', 150, 'Update test', 1),
+(4, '2020-04-24', '2020-04-30', 500, 'POST request', 1);
 
 -- --------------------------------------------------------
 
@@ -187,9 +205,9 @@ ALTER TABLE `sevice_vacations`
   ADD KEY `vacation_id` (`vacation_id`);
 
 --
--- Индексы таблицы `transport_tickets`
+-- Индексы таблицы `tickets`
 --
-ALTER TABLE `transport_tickets`
+ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -203,7 +221,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `vacations`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`userId`);
 
 --
 -- Индексы таблицы `vacation_tickets`
@@ -242,22 +260,22 @@ ALTER TABLE `sevice_vacations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT для таблицы `transport_tickets`
+-- AUTO_INCREMENT для таблицы `tickets`
 --
-ALTER TABLE `transport_tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tickets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `vacations`
 --
 ALTER TABLE `vacations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `vacation_tickets`
@@ -287,14 +305,14 @@ ALTER TABLE `sevice_vacations`
 -- Ограничения внешнего ключа таблицы `vacations`
 --
 ALTER TABLE `vacations`
-  ADD CONSTRAINT `vacations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `vacations_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `vacation_tickets`
 --
 ALTER TABLE `vacation_tickets`
   ADD CONSTRAINT `vacation_tickets_ibfk_1` FOREIGN KEY (`vacation_id`) REFERENCES `vacations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `vacation_tickets_ibfk_2` FOREIGN KEY (`transport_tickets_id`) REFERENCES `transport_tickets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `vacation_tickets_ibfk_2` FOREIGN KEY (`transport_tickets_id`) REFERENCES `tickets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

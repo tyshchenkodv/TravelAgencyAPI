@@ -34,10 +34,11 @@ router.get('/ticket/:id', auth, TicketController.item);
 router.put('/ticket/:id', auth, TicketController.update);
 router.delete('/ticket/:id', auth,TicketController.delete);
 
-router.get('/vacation', auth, VacationController.list);
+router.get('/vacation'/*, auth*/, VacationController.list);
 router.post('/vacation', auth, VacationController.create);
 router.get('/vacation/:id', auth, VacationController.item);
 router.put('/vacation/:id', auth, VacationController.update);
 router.delete('/vacation/:id', auth,VacationController.delete);
+router.get('/vacation1/:id', VacationController.itemMany);
 
 module.exports = router;

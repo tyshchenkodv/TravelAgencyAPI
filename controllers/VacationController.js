@@ -1,5 +1,7 @@
 const {Vacation} = require('./../database.js');
 const {User} = require('./../database.js');
+const {Service} = require('./../database.js');
+const {Service_vacation} = require('./../database.js');
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
@@ -84,5 +86,8 @@ module.exports = {
         }
 
         return res.status(201).send();
+    },
+    itemMany: async(req, res, next) =>{
+        Vacation.findOne({include: Service});
     },
 };
