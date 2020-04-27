@@ -1,12 +1,14 @@
 const { Vacation } = require('./../database.js');
 const { Service } = require('./../database.js');
+const { Hotel } = require('./../database.js');
+const { Ticket } = require('./../database.js');
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 const InternalErrorException = require('./../exceptions/InternalErrorException');
 
 module.exports = {
-    list: async (req, res, next) => {
+    listWithServices: async (req, res, next) => {
         try {
             const data = await Vacation.findAll({
                 include: [
@@ -19,6 +21,65 @@ module.exports = {
                         },
                     },
                 ],
+            });
+            return res.status(200).send({
+                data,
+            });
+        } catch (error) {
+            return next(new InternalErrorException(error));
+        }
+    },
+    listWithHotels: async (req, res, next) => {
+        try {
+            console.log(1);
+            const data = await Vacation.findAll({
+                include: [
+                    'user',
+                    {
+                        as: 'hotels',
+                        model: Hotel,
+                        through: {
+                            attributes: [],
+                        },
+                    },
+                ],
+            });
+            console.log(2);
+            return res.status(200).send({
+                data,
+            });
+        } catch (error) {
+            return next(new InternalErrorException(error));
+        }
+    },
+    listWithTickets: async (req, res, next) => {
+        try {
+            const data = await Vacation.findAll({
+                include: [
+                    'user',
+                    {
+                        as: 'tickets',
+                        model: Ticket,
+                        through: {
+                            attributes: [],
+                        },
+                    },
+                ],
+            });
+
+            return res.status(200).send({
+                data,
+            });
+        } catch (error) {
+            return next(new InternalErrorException(error));
+        }
+    },
+    list: async (req, res, next) => {
+        try {
+            const data = await Vacation.findAll({
+                include: [
+                    'user'
+                ]
             });
 
             return res.status(200).send({
