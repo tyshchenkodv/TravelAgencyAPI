@@ -31,7 +31,6 @@ module.exports = {
     },
     listWithHotels: async (req, res, next) => {
         try {
-            console.log(1);
             const data = await Vacation.findAll({
                 include: [
                     'user',
@@ -44,7 +43,6 @@ module.exports = {
                     },
                 ],
             });
-            console.log(2);
             return res.status(200).send({
                 data,
             });

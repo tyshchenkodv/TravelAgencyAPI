@@ -79,7 +79,7 @@ models.Vacation.belongsToMany(models.Hotel, {
     },
 });
 
-models.Hotel.belongsToMany(models.Hotel, {
+models.Hotel.belongsToMany(models.Vacation, {
     as: 'vacations',
     through: {
         model: models.HotelVacation,
