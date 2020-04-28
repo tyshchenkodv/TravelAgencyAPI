@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Апр 27 2020 г., 10:09
+-- Время создания: Апр 28 2020 г., 19:14
 -- Версия сервера: 8.0.18
 -- Версия PHP: 7.3.11
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `hotels` (
   `id` int(11) NOT NULL,
-  `adress` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `price_per_night` int(11) NOT NULL,
   `type` enum('apartament','botel','hostel','love hotel','eco hotel','motel') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
@@ -40,7 +40,7 @@ CREATE TABLE `hotels` (
 -- Дамп данных таблицы `hotels`
 --
 
-INSERT INTO `hotels` (`id`, `adress`, `price_per_night`, `type`, `phone`) VALUES
+INSERT INTO `hotels` (`id`, `address`, `price_per_night`, `type`, `phone`) VALUES
 (1, 'Adress 1', 23, 'apartament', '2414214'),
 (3, 'Update 3', 110, 'love hotel', '241423114'),
 (4, 'Update 6', 110, 'love hotel', '241423114');

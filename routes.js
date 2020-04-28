@@ -34,10 +34,7 @@ router.get('/tickets/:id', auth, TicketController.item);
 router.put('/tickets/:id', auth, TicketController.update);
 router.delete('/tickets/:id', auth, TicketController.delete);
 
-router.get('/vacations', VacationController.list);
-router.get('/vacations/services', VacationController.listWithServices);
-router.get('/vacations/hotels', VacationController.listWithHotels);
-router.get('/vacations/tickets', VacationController.listWithTickets);
+router.get('/vacations', auth, VacationController.list);
 router.post('/vacations', auth, VacationController.create);
 router.get('/vacations/:id', auth, VacationController.item);
 router.put('/vacations/:id', auth, VacationController.update);
