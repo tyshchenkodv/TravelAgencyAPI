@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Мар 30 2020 г., 10:10
+-- Время создания: Апр 28 2020 г., 19:14
 -- Версия сервера: 8.0.18
 -- Версия PHP: 7.3.11
 
@@ -30,17 +30,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `hotels` (
   `id` int(11) NOT NULL,
-  `adress` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `price_per_night` int(11) NOT NULL,
   `type` enum('apartament','botel','hostel','love hotel','eco hotel','motel') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(25) COLLATE utf8mb4_general_ci NOT NULL
+  `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `hotels`
 --
 
-INSERT INTO `hotels` (`id`, `adress`, `price_per_night`, `type`, `phone`) VALUES
+INSERT INTO `hotels` (`id`, `address`, `price_per_night`, `type`, `phone`) VALUES
 (1, 'Adress 1', 23, 'apartament', '2414214'),
 (3, 'Update 3', 110, 'love hotel', '241423114'),
 (4, 'Update 6', 110, 'love hotel', '241423114');
@@ -48,14 +48,24 @@ INSERT INTO `hotels` (`id`, `adress`, `price_per_night`, `type`, `phone`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `hotel_vacations`
+-- Структура таблицы `hotelvacations`
 --
 
-CREATE TABLE `hotel_vacations` (
+CREATE TABLE `hotelvacations` (
   `id` int(11) NOT NULL,
-  `hotel_id` int(11) NOT NULL,
-  `vacation_id` int(11) NOT NULL
+  `hotelId` int(11) NOT NULL,
+  `vacationId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `hotelvacations`
+--
+
+INSERT INTO `hotelvacations` (`id`, `hotelId`, `vacationId`) VALUES
+(1, 1, 4),
+(2, 3, 2),
+(3, 1, 1),
+(4, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -80,22 +90,31 @@ INSERT INTO `services` (`id`, `price`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `sevice_vacations`
+-- Структура таблицы `servicevacations`
 --
 
-CREATE TABLE `sevice_vacations` (
+CREATE TABLE `servicevacations` (
   `id` int(11) NOT NULL,
-  `service_id` int(11) NOT NULL,
-  `vacation_id` int(11) NOT NULL
+  `serviceId` int(11) NOT NULL,
+  `vacationId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `servicevacations`
+--
+
+INSERT INTO `servicevacations` (`id`, `serviceId`, `vacationId`) VALUES
+(1, 2, 2),
+(2, 2, 1),
+(3, 2, 4);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `transport_tickets`
+-- Структура таблицы `tickets`
 --
 
-CREATE TABLE `transport_tickets` (
+CREATE TABLE `tickets` (
   `id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `departure_date` datetime NOT NULL,
@@ -103,6 +122,34 @@ CREATE TABLE `transport_tickets` (
   `icao_departure` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `icao_arrival` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `tickets`
+--
+
+INSERT INTO `tickets` (`id`, `price`, `departure_date`, `arrival_date`, `icao_departure`, `icao_arrival`) VALUES
+(1, 250, '2020-03-04 00:00:00', '2020-05-14 00:00:00', 'FEDA', 'FAS'),
+(2, 500, '2020-03-30 11:00:00', '2020-03-31 05:00:00', 'FASF', 'DSW');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ticketvacations`
+--
+
+CREATE TABLE `ticketvacations` (
+  `id` int(11) NOT NULL,
+  `vacationId` int(11) NOT NULL,
+  `transportTicketId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `ticketvacations`
+--
+
+INSERT INTO `ticketvacations` (`id`, `vacationId`, `transportTicketId`) VALUES
+(1, 2, 2),
+(2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -114,10 +161,10 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `first_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `last_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `identification_code` int(11) NOT NULL,
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `password` text COLLATE utf8mb4_general_ci NOT NULL
+  `password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -125,7 +172,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `phone`, `identification_code`, `email`, `password`) VALUES
-(1, 'Dima', 'Tyshchenko', '+380955481366', 1111111111, 'dmitry.tishchenko98@gmail.com', 'password1234');
+(1, 'Dima', 'Tyshchenko', '+380955481366', 1111111111, 'dmitry.tishchenko98@gmail.com', 'password1234'),
+(2, 'Alex', 'Merser', '+3805558666', 1111111111, 'alex.merser@gmail.com', 'password1234');
 
 -- --------------------------------------------------------
 
@@ -139,20 +187,17 @@ CREATE TABLE `vacations` (
   `date_end` date NOT NULL,
   `price` int(11) NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `user_id` int(11) NOT NULL
+  `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Структура таблицы `vacation_tickets`
+-- Дамп данных таблицы `vacations`
 --
 
-CREATE TABLE `vacation_tickets` (
-  `id` int(11) NOT NULL,
-  `vacation_id` int(11) NOT NULL,
-  `transport_tickets_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `vacations` (`id`, `date_start`, `date_end`, `price`, `description`, `userId`) VALUES
+(1, '2020-04-24', '2020-04-30', 500, 'Тур по Европе', 1),
+(2, '2020-04-29', '2020-05-25', 150, 'Update test', 1),
+(4, '2020-04-24', '2020-04-30', 500, 'POST request', 2);
 
 --
 -- Индексы сохранённых таблиц
@@ -165,12 +210,12 @@ ALTER TABLE `hotels`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `hotel_vacations`
+-- Индексы таблицы `hotelvacations`
 --
-ALTER TABLE `hotel_vacations`
+ALTER TABLE `hotelvacations`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `hotel_id` (`hotel_id`),
-  ADD KEY `vacation_id` (`vacation_id`);
+  ADD KEY `hotelId` (`hotelId`) USING BTREE,
+  ADD KEY `vacationId` (`vacationId`) USING BTREE;
 
 --
 -- Индексы таблицы `services`
@@ -179,18 +224,26 @@ ALTER TABLE `services`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `sevice_vacations`
+-- Индексы таблицы `servicevacations`
 --
-ALTER TABLE `sevice_vacations`
+ALTER TABLE `servicevacations`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `service_id` (`service_id`),
-  ADD KEY `vacation_id` (`vacation_id`);
+  ADD KEY `serviceId` (`serviceId`) USING BTREE,
+  ADD KEY `vacationId` (`vacationId`) USING BTREE;
 
 --
--- Индексы таблицы `transport_tickets`
+-- Индексы таблицы `tickets`
 --
-ALTER TABLE `transport_tickets`
+ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `ticketvacations`
+--
+ALTER TABLE `ticketvacations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `vacationId` (`vacationId`) USING BTREE,
+  ADD KEY `transportTicketId` (`transportTicketId`) USING BTREE;
 
 --
 -- Индексы таблицы `users`
@@ -203,15 +256,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `vacations`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Индексы таблицы `vacation_tickets`
---
-ALTER TABLE `vacation_tickets`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `vacation_id` (`vacation_id`),
-  ADD KEY `transport_tickets_id` (`transport_tickets_id`);
+  ADD KEY `user_id` (`userId`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -224,10 +269,10 @@ ALTER TABLE `hotels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT для таблицы `hotel_vacations`
+-- AUTO_INCREMENT для таблицы `hotelvacations`
 --
-ALTER TABLE `hotel_vacations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `hotelvacations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `services`
@@ -236,65 +281,65 @@ ALTER TABLE `services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `sevice_vacations`
+-- AUTO_INCREMENT для таблицы `servicevacations`
 --
-ALTER TABLE `sevice_vacations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `servicevacations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `transport_tickets`
+-- AUTO_INCREMENT для таблицы `tickets`
 --
-ALTER TABLE `transport_tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tickets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `ticketvacations`
+--
+ALTER TABLE `ticketvacations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `vacations`
 --
 ALTER TABLE `vacations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT для таблицы `vacation_tickets`
---
-ALTER TABLE `vacation_tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Ограничения внешнего ключа таблицы `hotel_vacations`
+-- Ограничения внешнего ключа таблицы `hotelvacations`
 --
-ALTER TABLE `hotel_vacations`
-  ADD CONSTRAINT `hotel_vacations_ibfk_1` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `hotel_vacations_ibfk_2` FOREIGN KEY (`vacation_id`) REFERENCES `vacations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `hotelvacations`
+  ADD CONSTRAINT `hotelvacations_ibfk_1` FOREIGN KEY (`hotelId`) REFERENCES `hotels` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `hotelvacations_ibfk_2` FOREIGN KEY (`vacationId`) REFERENCES `vacations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `sevice_vacations`
+-- Ограничения внешнего ключа таблицы `servicevacations`
 --
-ALTER TABLE `sevice_vacations`
-  ADD CONSTRAINT `sevice_vacations_ibfk_1` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `sevice_vacations_ibfk_2` FOREIGN KEY (`vacation_id`) REFERENCES `vacations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `servicevacations`
+  ADD CONSTRAINT `servicevacations_ibfk_1` FOREIGN KEY (`serviceId`) REFERENCES `services` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `servicevacations_ibfk_2` FOREIGN KEY (`vacationId`) REFERENCES `vacations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `ticketvacations`
+--
+ALTER TABLE `ticketvacations`
+  ADD CONSTRAINT `ticketvacations_ibfk_1` FOREIGN KEY (`vacationId`) REFERENCES `vacations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `ticketvacations_ibfk_2` FOREIGN KEY (`transportTicketId`) REFERENCES `tickets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `vacations`
 --
 ALTER TABLE `vacations`
-  ADD CONSTRAINT `vacations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `vacation_tickets`
---
-ALTER TABLE `vacation_tickets`
-  ADD CONSTRAINT `vacation_tickets_ibfk_1` FOREIGN KEY (`vacation_id`) REFERENCES `vacations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `vacation_tickets_ibfk_2` FOREIGN KEY (`transport_tickets_id`) REFERENCES `transport_tickets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `vacations_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

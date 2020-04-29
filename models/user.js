@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: true,
                 notEmpty: true,
                 len: [
-                    10
+                    10,
                 ],
             },
         },
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true,
                 len: [
                     8,
-                    50
+                    50,
                 ],
             },
         },
@@ -68,6 +68,15 @@ module.exports = (sequelize, DataTypes) => {
                 len: [
                     3,
                     20,
+                ],
+            },
+        },
+    }, {
+        defaultScope: {
+            attributes: {
+                exclude: [
+                    'password',
+                    'identification_code',
                 ],
             },
         },

@@ -1,18 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('hotel', {
-        address: {
-            type: DataTypes.STRING,
+    return sequelize.define('vacation', {
+        date_start: {
+            type: DataTypes.DATEONLY,
             allowNull: false,
             validate: {
                 notNull: true,
                 notEmpty: true,
-                len: [
-                    5,
-                    50,
-                ],
             },
         },
-        price_per_night: {
+        date_end: {
+            type: DataTypes.DATEONLY,
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
+        price: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             validate: {
@@ -22,32 +26,15 @@ module.exports = (sequelize, DataTypes) => {
                 min: 0,
             },
         },
-        type: {
-            type: DataTypes.ENUM,
-            values: [
-                'apartament',
-                'botel',
-                'hostel',
-                'love hotel',
-                'eco hotel',
-                'motel',
-            ],
-            allowNull: false,
-            validate: {
-                notNull: true,
-                notEmpty: true,
-            },
-            defaultValue: 'apartament',
-        },
-        phone: {
+        description: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notNull: true,
                 notEmpty: true,
                 len: [
-                    3,
-                    25,
+                    10,
+                    300,
                 ],
             },
         },
