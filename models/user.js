@@ -75,6 +75,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultScope: {
             attributes: {
                 exclude: [
+                    'password',
                     'identification_code',
                 ],
             },

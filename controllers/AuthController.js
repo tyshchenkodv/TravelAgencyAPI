@@ -25,7 +25,7 @@ module.exports = {
                 return next(new BadRequestException(errors));
             }
 
-            const user = await User.findOne({
+            const user = await User.unscoped().findOne({
                 where: {
                     email,
                 },
